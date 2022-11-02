@@ -19,16 +19,27 @@ app.get("/", function (req, res) {
 });
 
 
-// your first API endpoint... 
+// now API endpoint...
+app.get("/api/", function (req, res) {
+  let apiDate = new Date();
+  let apiTimestamp = apiDate.getTime();
+
+  res.json({unix: apiTimestamp, utc: apiDate.toUTCString() });
+});
+
+// time API endpoint... 
 app.get("/api/:time", function (req, res) {
   let apiDate = new Date(req.params.time);
   let apiTimestamp = 0;
   
-  // check if the date is valid
   if(isNaN(apiDate.valueOf())) {
     // invalid date format, use unix timestamp in milliseconds as number
     apiTimestamp = parseInt(req.params.time);
     apiDate = new Date(apiTimestamp);
+
+    if(isNaN(apiDate.valueOf())) {
+      res.json({ error : "Invalid Date" });
+    }
   } else {
     // valid date, set timestamp
     apiTimestamp = apiDate.getTime();
