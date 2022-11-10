@@ -1,0 +1,2 @@
+# include SQLite DB in git
+!*.sqlite
